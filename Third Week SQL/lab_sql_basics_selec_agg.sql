@@ -122,3 +122,16 @@ WHERE `date` BETWEEN 971201 AND 971231
 GROUP BY `date`, duration
 ORDER BY `date` ASC;
 
+####### Query 18 #####
+# In the trans table, for account_id 396, sum the amount of transactions for each type (VYDAJ = Outgoing, PRIJEM = Incoming). 
+# Your output should have the account_id, the type and the sum of amount, named as total_amount. Sort alphabetically by type.
+SELECT account_id, `type`, SUM(amount) AS total_amount FROM trans
+WHERE account_id = 396
+GROUP BY `type`
+ORDER BY `type` ASC;
+
+####### Query 19 #####
+# From the previous output, translate the values for type to English, rename the column to transaction_type, 
+# round total_amount down to an integer. 
+
+
