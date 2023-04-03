@@ -81,17 +81,44 @@ WHERE account_id = 793
 ORDER BY `date` DESC
 LIMIT 10; 
 
+####### OPTIONAL #####
 ####### Query 13 #####
 # In the client table, of all districts with a district_id lower than 10, 
 # how many clients are from each district_id? 
 
 # Show the results sorted by the district_id in ascending order.
 
-SELECT district_id, count(client_id) FROM client
+SELECT district_id, COUNT(client_id) FROM `client`
 WHERE district_id < 10
-GROUP BY client_id
+GROUP BY district_id
 ORDER BY district_id ASC;
 
+####### Query 14 #####
+# In the card table, how many cards exist for each type? Rank the result starting with the most frequent type.
+SELECT `type`, COUNT(card_id) FROM card
+GROUP BY `type`
+ORDER BY COUNT(card_id) DESC;
 
+####### Query 15 #####
+# Using the loan table, print the top 10 account_ids based on the sum of all of their loan amounts.
+SELECT account_id, SUM(amount) FROM loan
+GROUP BY account_id
+ORDER BY SUM(amount) DESC
+LIMIT 10;
 
+####### Query 16 #####
+# In the loan table, retrieve the number of loans issued for each day, before (excl) 930907, ordered by date in descending order.
+SELECT DISTINCT `date`, COUNT(loan_id)  FROM loan
+WHERE `date` < 930907
+GROUP BY `date`
+ORDER BY `date` DESC;
+
+####### Query 17 #####
+# In the loan table, for each day in December 1997, 
+# count the number of loans issued for each unique loan duration, ordered by date and duration, 
+# both in ascending order. You can ignore days without any loans in your output.
+SELECT DISTINCT `date`, duration, COUNT(loan_id)  FROM loan
+WHERE `date` BETWEEN 971201 AND 971231
+GROUP BY `date`, duration
+ORDER BY `date` ASC;
 
