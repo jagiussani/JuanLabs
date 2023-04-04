@@ -77,5 +77,15 @@ GROUP BY address.address
 HAVING COUNT(customer.customer_id) = 0;
 
 # Optional 
+# what is the most rented film?
 
+SELECT DISTINCT film.title, SUM(film.rental_rate) FROM film INNER JOIN inventory 
+ON film.film_id = inventory.film_id
+INNER JOIN rental
+ON rental.rental_id = inventory.inventory_id
+GROUP BY film.title
+HAVING SUM(film.rental_rate)
+ORDER BY SUM(film.rental_rate) DESC;
 
+# THERE ARE MANY MOVIES WITH THE SAME RENTAL RATE, OR COUNT OF INVENTORY ID
+# NOT ABLE TO ACHIEVE THE RESULT 
