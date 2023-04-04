@@ -133,5 +133,9 @@ ORDER BY `type` ASC;
 ####### Query 19 #####
 # From the previous output, translate the values for type to English, rename the column to transaction_type, 
 # round total_amount down to an integer. 
-
+SELECT `type` FROM trans
+CASE
+	WHEN PRIJEM THEN INCOMING
+    WHEN VYDAJ THEN OUTGOING
+END AS TRANSACTION_TYPE 
 
