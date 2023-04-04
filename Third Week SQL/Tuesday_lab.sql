@@ -48,6 +48,7 @@ USING (staff_id)
 WHERE payment.payment_date LIKE "2005-08%"
 GROUP BY staff.first_name, staff.last_name
 ORDER BY staff.first_name;
+#try concat(firstname, "", lastname)
 
 #7. List each film and the number of actors who are listed for that film.
 SELECT film.title,COUNT(film_actor.actor_id) FROM film INNER JOIN film_actor
