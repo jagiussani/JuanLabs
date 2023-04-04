@@ -31,7 +31,7 @@ ORDER BY status;
 ###### Query 5 #####
 # What is the loan_id of the highest payment received in the loan table?
 SELECT loan_id FROM loan
-ORDER BY amount DESC
+ORDER BY payments DESC
 LIMIT 1;
 
 ###### Query 6 #####
@@ -54,16 +54,17 @@ LIMIT 5;
 # since order is reserved from the ORDER BY clause. 
 # You have to use backticks to escape the order table name.
 
-SELECT DISTINCT (k_symbol) FROM `order`;
+SELECT DISTINCT (k_symbol) FROM `order`
+WHERE k_symbol <> " ";
 
 ####### Query 9 #####
 # In the order table, what are the order_ids of the client with the account_id 34?
-SELECT order_id FROM `order`
-WHERE account_id = 34
+SELECT order_id FROM bank.order
+WHERE account_id = 34;
 
 ####### Query 10 #####
 # In the order table, which account_ids were responsible for orders between order_id 29540 and order_id 29560 (inclusive)?
-SELECT DISTINCT (account_id) FROM `order`
+SELECT DISTINCT (account_id) FROM bank.order
 WHERE order_id BETWEEN 29540 AND 29560; 
 
 ####### Query 11 #####

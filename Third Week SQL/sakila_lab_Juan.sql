@@ -66,7 +66,7 @@ SELECT title FROM film;
 #### Note ##### that we are not asking you to obtain the language per each film, 
 # but this is a good time to think about how you might get that information in the future.
 
-SELECT DISTINCT name AS language FROM language;
+SELECT DISTINCT name as language FROM language;
 
 ################                  Excercise 5                     ################
 ################ 5.1 Find out how many stores does the company have?  ############
