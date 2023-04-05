@@ -39,8 +39,9 @@ SELECT DISTINCT film.title, `language`.`name`  FROM `language` INNER JOIN film
 USING (language_id)
 WHERE film.title LIKE 'M%'
 AND
-`language`.`name` BETWEEN  "English" AND "Italian"
+`language`.`name` IN ("English", "Italian")
 ORDER BY film.title DESC;
+#REGEXP also an option
 
 #6. Display the total amount rung up by each staff member in August of 2005.
 SELECT DISTINCT staff.first_name, staff.last_name, SUM(payment.amount) FROM payment INNER JOIN staff
@@ -66,9 +67,10 @@ ORDER BY customer.last_name
 LIMIT 10;
 
 #9. Write sql statement to check if you can find any actor who never particiapted in any film.
-SELECT actor.first_name, actor.last_name, COUNT(film_actor.film_id) FROM actor LEFT JOIN film_actor
+SELECT actor.first_name, actor.last_name, film_actor.film_id FROM actor LEFT JOIN film_actor
 USING (actor_id)
-WHERE actor.actor_id = 0; 
+WHERE film_actor.actor_id IS NULL; 
+#OR "IS NULL"
 
 #10. Get the addresses that have NO customers, and ends with the letter "e"
 SELECT address.address FROM address LEFT JOIN customer
@@ -80,13 +82,20 @@ HAVING COUNT(customer.customer_id) = 0;
 # Optional 
 # what is the most rented film?
 
-SELECT DISTINCT film.title, SUM(film.rental_rate) FROM film INNER JOIN inventory 
+SELECT DISTINCT film.title, count(rental.rental_id) FROM film INNER JOIN inventory
 ON film.film_id = inventory.film_id
-INNER JOIN rental
-ON rental.rental_id = inventory.inventory_id
+INNER JOIN rental 
+ON inventory.inventory_id = rental.inventory_id
 GROUP BY film.title
-HAVING SUM(film.rental_rate)
-ORDER BY SUM(film.rental_rate) DESC;
+HAVING count(rental.rental_id)
+ORDER BY count(rental.rental_id) DESC;
 
-# THERE ARE MANY MOVIES WITH THE SAME RENTAL RATE, OR COUNT OF INVENTORY ID
-# NOT ABLE TO ACHIEVE THE RESULT 
+###### 
+SELECT fi.title, count(re.rental_id) AS total_rentals
+FROM film AS fi
+INNER JOIN inventory AS inv ON fi.film_id = inv.film_id
+INNER JOIN rental AS re ON inv.inventory_id = re.inventory_id
+GROUP BY fi.title
+ORDER BY total_rentals DESC
+LIMIT 1;
+#####
