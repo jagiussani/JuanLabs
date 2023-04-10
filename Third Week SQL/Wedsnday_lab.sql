@@ -107,9 +107,30 @@ LIMIT 1;
 # 526
 
 # 8. Customers who spent more than the average payments(this refers to the average of all amount spent per each customer).
-SELECT first_name, last_name, avg(amount) FROM payment INNER JOIN customer
+
+SELECT first_name, last_name, AVG(amount) FROM payment INNER JOIN customer
 USING (customer_id)
-WHERE payment > avg(amount)
+WHERE payment > AVG(amount)
 GROUP BY customer_id; 
 # did not work
+SELECT first_name, last_name, customer_id
+FROM customer
+WHERE customer_id IN (
+						SELECT customer_id
+                        FROM payment 
+                        GROUP BY customer_id
+                        HAVING sum(amount) > (SELECT (sum(amount)/count(DISTINCT(customer_id))) AS average_expenditure_per_customer
+												FROM payment))
+ORDER BY first_name, last_name;
 
+# or 
+
+SELECT first_name, last_name, customer_id
+FROM customer
+WHERE customer_id IN (
+						SELECT customer_id
+                        FROM payment 
+                        GROUP BY customer_id
+                        HAVING sum(amount) > (SELECT AVG(total) FROM (SELECT sum(amount) AS total
+												FROM payment
+                                                GROUP BY customer_id) as total_customer));
